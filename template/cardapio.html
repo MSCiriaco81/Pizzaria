@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cardápio de Pizzas com Preço</title>
+</head>
+<body>
+  <h1>🍕 Cardápio de Pizzas</h1>
+  <p>Selecione os sabores desejados:</p>
+
+  <form id="form-pedido">
+    <!-- Sabores -->
+    <fieldset>
+      <legend>Sabores</legend>
+      <label><input type="checkbox" name="sabor" value="Calabresa" data-preco="35.00" /> Calabresa - R$ 35,00</label><br />
+      <label><input type="checkbox" name="sabor" value="Marguerita" data-preco="30.00" /> Marguerita - R$ 30,00</label><br />
+      <label><input type="checkbox" name="sabor" value="Frango com Catupiry" data-preco="40.00" /> Frango com Catupiry - R$ 40,00</label><br />
+      <label><input type="checkbox" name="sabor" value="Portuguesa" data-preco="38.00" /> Portuguesa - R$ 38,00</label><br />
+      <label><input type="checkbox" name="sabor" value="Quatro Queijos" data-preco="45.00" /> Quatro Queijos - R$ 45,00</label><br />
+    </fieldset><br />
+
+    <!-- Tamanhos -->
+    <fieldset>
+      <legend>Tamanho da Pizza</legend>
+      <label><input type="radio" name="tamanho" value="Pequena" data-multiplicador="1" checked /> Pequena</label><br />
+      <label><input type="radio" name="tamanho" value="Média" data-multiplicador="1.3" /> Média (+30%)</label><br />
+      <label><input type="radio" name="tamanho" value="Grande" data-multiplicador="1.5" /> Grande (+50%)</label><br />
+    </fieldset><br />
+
+    <!-- Adicionais -->
+    <fieldset>
+      <legend>Adicionais</legend>
+      <label><input type="checkbox" name="adicional" value="Borda Recheada" data-preco="5.00" /> Borda Recheada - R$ 5,00</label><br />
+      <label><input type="checkbox" name="adicional" value="Extra Queijo" data-preco="7.00" /> Extra de Queijo - R$ 7,00</label><br />
+    </fieldset><br />
+
+    <button type="submit">Enviar Pedido</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('form-pedido');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const saboresSelecionados = Array.from(document.querySelectorAll('input[name="sabor"]:checked'));
+      if (saboresSelecionados.length === 0) {
+        alert('Por favor, selecione ao menos um sabor.');
+        return;
+      }
+
+      // Tamanhos
+      const tamanhoSelecionado = document.querySelector('input[name="tamanho"]:checked');
+      const multiplicador = parseFloat(tamanhoSelecionado.getAttribute('data-multiplicador'));
+      const tamanhoNome = tamanhoSelecionado.value;
+
+      // Adicionais
+      const adicionaisSelecionados = Array.from(document.querySelectorAll('input[name="adicional"]:checked'));
+      
+      let totalSabores = saboresSelecionados.reduce((acc, el) => acc + parseFloat(el.dataset.preco), 0);
+      let totalAdicionais = adicionaisSelecionados.reduce((acc, el) => acc + parseFloat(el.dataset.preco), 0);
+
+      // Aplicar multiplicador no total dos sabores
+      const total = (totalSabores * multiplicador) + totalAdicionais;
+
+      const query = new URLSearchParams({
+        sabores: saboresSelecionados.map(el => el.value).join(','),
+        tamanho: tamanhoNome,
+        adicionais: adicionaisSelecionados.map(el => el.value).join(',') || 'Nenhum',
+        total: total.toFixed(2)
+      });
+
+      window.location.href = `/pedido?${query.toString()}`;
+    });
+  </script>
+</body>
+</html>
