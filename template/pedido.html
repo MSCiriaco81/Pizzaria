@@ -1,22 +1,29 @@
+<!-- Página de resumo do pedido (Node.js) -->
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <title>Resumo do Pedido</title>
+  <title>Resumo do Pedido</title> <!-- Título da página -->
 </head>
 <body>
+  <!-- Título principal -->
   <h1>Resumo do Pedido</h1>
 
+  <!-- Lista de sabores escolhidos -->
   <p><strong>Sabores escolhidos:</strong></p>
-  <ul>{sabores}</ul>
+  <ul>{sabores}</ul> <!-- Substituído dinamicamente pelo servidor -->
 
+  <!-- Exibe o tamanho escolhido -->
   <p><strong>Tamanho:</strong> {tamanho}</p>
 
+  <!-- Lista de adicionais escolhidos -->
   <p><strong>Adicionais:</strong></p>
-  <ul>{adicionais}</ul>
+  <ul>{adicionais}</ul> <!-- Substituído dinamicamente pelo servidor -->
 
+  <!-- Exibe o valor total do pedido -->
   <p><strong>Total: R$ {total}</strong></p>
 
+  <!-- Link para voltar ao cardápio -->
   <a href="/cardapio">Voltar ao cardápio</a>
 </body>
 </html>
